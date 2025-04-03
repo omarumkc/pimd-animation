@@ -1,4 +1,3 @@
-// Canvas setup
 const canvas = document.getElementById('animation-canvas');
 const ctx = canvas.getContext('2d');
 const width = 600;
@@ -6,7 +5,6 @@ const height = 400;
 canvas.width = width;
 canvas.height = height;
 
-// Geometry parameters
 const source = { x: 50, y: 200 };
 const slit_x = 200;
 const screen_x = 550;
@@ -20,12 +18,10 @@ let viewMode = 'pattern';
 let selectedY = null;
 let animating = false;
 
-// Utility function to compute distance
 function distance(p1, p2) {
     return Math.sqrt((p2.x - p1.x) ** 2 + (p2.y - p1.y) ** 2);
 }
 
-// Get sample points for a slit
 function getSamplePoints(center, width, numPoints) {
     if (numPoints === 1) {
         return [{ x: slit_x, y: center }];
@@ -38,7 +34,6 @@ function getSamplePoints(center, width, numPoints) {
     return points;
 }
 
-// Compute amplitude at a screen point
 function computeAmplitude(y_screen, M, lambda) {
     const k = 2 * Math.PI / lambda;
     let amplitude = [0, 0]; // [real, imaginary]
@@ -56,12 +51,10 @@ function computeAmplitude(y_screen, M, lambda) {
     return amplitude;
 }
 
-// Draw the interference pattern
 function drawPattern(M, lambda) {
     let max_intensity = 0;
     const intensities = [];
     
-    // Calculate intensities
     for (let y = 0; y < height; y++) {
         const amplitude = computeAmplitude(y, M, lambda);
         const intensity = amplitude[0] ** 2 + amplitude[1] ** 2;
@@ -69,7 +62,6 @@ function drawPattern(M, lambda) {
         if (intensity > max_intensity) max_intensity = intensity;
     }
     
-    // Draw pattern
     for (let y = 0; y < height; y++) {
         const normalized = intensities[y] / max_intensity * 255;
         ctx.fillStyle = `rgb(${normalized}, ${normalized}, ${normalized})`;
@@ -77,7 +69,6 @@ function drawPattern(M, lambda) {
     }
 }
 
-// Draw paths to a selected screen point with phase-based colors
 function drawPaths(y_selected, M, lambda) {
     const k = 2 * Math.PI / lambda;
     const slit1_points = getSamplePoints(slit1_center, slit_width, M);
@@ -98,25 +89,20 @@ function drawPaths(y_selected, M, lambda) {
     }
 }
 
-// Draw the experimental setup
 function drawSetup() {
-    // Source
     ctx.fillStyle = 'red';
     ctx.beginPath();
     ctx.arc(source.x, source.y, 5, 0, 2 * Math.PI);
     ctx.fill();
 
-    // Slits
     ctx.fillStyle = 'black';
     ctx.fillRect(slit_x - 2, slit1_center - slit_width / 2, 4, slit_width);
     ctx.fillRect(slit_x - 2, slit2_center - slit_width / 2, 4, slit_width);
 
-    // Screen
     ctx.fillStyle = 'gray';
     ctx.fillRect(screen_x, 0, 50, height);
 }
 
-// Main drawing function
 function drawAll() {
     ctx.clearRect(0, 0, width, height);
     drawSetup();
@@ -127,7 +113,6 @@ function drawAll() {
     }
 }
 
-// Event listeners
 canvas.addEventListener('click', (event) => {
     if (viewMode === 'path') {
         const rect = canvas.getBoundingClientRect();
@@ -176,5 +161,4 @@ function animatePaths() {
     }
 }
 
-// Initial draw
 drawAll();
