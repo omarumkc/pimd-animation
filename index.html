@@ -3,13 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Simple Web App</title>
+    <title>Interactive Path Integral Animation</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Welcome to My Simple Web App</h1>
-    <p>This is a basic web application.</p>
-    <button onclick="displayMessage()">Click Me!</button>
+    <h1>Interactive Path Integral Animation</h1>
+    <div id="animation-container">
+        <canvas id="animation-canvas"></canvas>
+    </div>
+    <div id="controls">
+        <label for="M-slider">Sample Points per Slit (M): </label>
+        <input type="range" id="M-slider" min="1" max="50" value="1">
+        <br>
+        <label for="lambda-slider">Wavelength (λ, pixels): </label>
+        <input type="range" id="lambda-slider" min="1" max="100" step="0.1" value="10">
+        <br>
+        <label for="a-slider">Slit Separation (a, pixels): </label>
+        <input type="range" id="a-slider" min="20" max="100" value="40">
+        <br>
+        <label for="view-toggle">View Mode: </label>
+        <select id="view-toggle">
+            <option value="pattern">Pattern</option>
+            <option value="path">Path</option>
+        </select>
+        <br>
+        <button id="animate-button">Start Animation</button>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
